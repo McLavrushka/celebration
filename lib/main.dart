@@ -68,7 +68,7 @@ class _CongratulationsScreenState extends State<CongratulationsScreen>
                   Transform(
                     alignment: Alignment.center,
                     transform: Matrix4.identity()..scale(-1.0, 1.0),
-                    child: Image.asset('assets/images/pngegg.png',
+                    child: Image.asset('assets/images/flowers.png',
                         width: 500, height: 500),
                   ),
                    
@@ -81,7 +81,7 @@ class _CongratulationsScreenState extends State<CongratulationsScreen>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'assets/images/misha.png',
+                    'assets/images/misha_dog.png',
                     width: 300,
                     height: 300,
                   ),
@@ -114,7 +114,7 @@ class _CongratulationsScreenState extends State<CongratulationsScreen>
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset('assets/images/pngegg.png', width: 500, height: 500),
+                  Image.asset('assets/images/flowers.png', width: 500, height: 500),
                 ],
               ),
             ),
