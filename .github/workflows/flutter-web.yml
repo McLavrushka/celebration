@@ -1,31 +1,42 @@
-name: Flutter Web Deploy
+name: Build Web
 
-on:
-  push:
-    branches:
-      - main
+on: 
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+    test:
+        runs-on: ubuntu-22.04
+        steps:
+            - uses: actions/checkout@v4
+            - uses: subosito/flutter-action@v2
+              with:
+                channel: stable
+                flutter-version: 3.24.3
+            - run: flutter pub get
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+            - run: flutter analyze  --no-fatal-warnings --no-fatal-infos lib/main.dart               
 
-    - name: Setup Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.24.3' 
+            - uses: bluefireteam/flutter-gh-pages@v7
+              with:
+                baseHref: /happy_programmers_day/
+                customArgs: --target="lib/main.dart"
+    
+    build-windows:
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: subosito/flutter-action@v2
+              with:
+                channel: stable
+                flutter-version: 3.24.3
+            - run: flutter pub get
 
-    - name: Install dependencies
-      run: flutter pub get
+            - name: Install Visual Studio Build Tools
+              run: choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.NativeDesktop --includeRecommended --includeOptional"
 
-    - name: Build Flutter Web
-      run: flutter build web --release
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: build/web
+            - run: flutter build windows --release lib/main.dart
